@@ -1,10 +1,15 @@
 <?php
 require 'conn.php';
-$selectsum = "SELECT COUNT(track) as countn from trackselection WHERE track = 'network'";
-$selectsum2 = "SELECT COUNT(track) as counts from trackselection WHERE track = 'software'";
-$network = $conn->query($selectsum);
-$software = $conn->query($selectsum2);
+
+$sql = "SELECT * FROM trackselection WHERE track ='software'";
+$result = $conn->query($sql);
+$software = $result->num_rows;
+
+$sql = "SELECT * FROM trackselection WHERE track ='network'";
+$result = $conn->query($sql);
+$network = $result->num_rows;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,29 +51,20 @@ $software = $conn->query($selectsum2);
     <h3>Registered Student Based On Track</h3>
     <table border="1">
         <tr>
-            <td>Software</td>
-            <td>Network</td>
+            <th>Track</th>
+            <th>Number of Registered Student</th>
+            <th>Action</th>
         </tr>
-        <?php
-        if ($software->num_rows > 0) {
-            while ($row = $software->fetch_assoc()) {
-        ?>
-                <tr>
-                    <td><?php echo $row['counts']; ?></td>
-                <?php
-            }
-        }
-        if ($network->num_rows > 0) {
-            while ($row = $network->fetch_assoc()) {
-                ?>
-                    <td>
-                        <?php echo $row['countn']; ?>
-                    </td>
-                </tr>
-        <?php
-            }
-        }
-        ?>
+        <tr>
+            <td>Software</td>
+            <td><?php echo $software; ?> </td>
+            <td><a href="list.php?track=software">View</a></td>
+        </tr>
+        <tr>
+            <td>Network</td>
+            <td><?php echo $network; ?></td>
+            <td><a href="list.php?track=network">View</a></td>
+        </tr>
     </table>
 </body>
 
